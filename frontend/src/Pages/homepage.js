@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   Container,
-  Box,
+   Box,
    Text,
    Tab,
    TabList,

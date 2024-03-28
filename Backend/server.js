@@ -3,26 +3,17 @@ const path = require('path')
 require('dotenv').config({path:path.resolve(__dirname,'./.env')})
 const connectDB = require("./config/db");
 const { chats } = require("./Data/data");
+const userRoutes = require('./routes/userRoutes')
 const app = express();
 
-// Load environment variables from .env file
-
-
 connectDB();
-
+//to access the body of the request Json Data
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send("Hello welcome");
 });
-
-app.get('/api/chat', (req, res) => {
-    res.send(chats);
-});
-
-app.get('/api/chat/:id', (req, res) => {
-    const singlechat = chats.find((c) => c._id === req.params.id);
-    res.send(singlechat);
-});
+app.use('/api/user',userRoutes)
 
 // Retrieve the PORT from environment variables
 const PORT = process.env.PORT || 5000;
