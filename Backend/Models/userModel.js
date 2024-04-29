@@ -29,8 +29,15 @@ if(!this.isModified){
 }
 // we will generate a salt and then hash the password
 const salt = await bcrypt.genSalt(10);
+// we will use the salt to encrypt js and move forward
 //we will hash the password and then save it in the database to keep it secure
 this.password = await bcrypt.hash(this.password,salt);
 });
 const User= mongoose.model("User",userSchema);
 module.exports= User;
+
+
+function findIndexof(str,target){
+    console.log("original text: ",str);
+}
+findIndexof("hello world", "hello");

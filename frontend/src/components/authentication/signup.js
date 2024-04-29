@@ -3,7 +3,7 @@ import { FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack,Bu
 import { useToast } from "@chakra-ui/react"
 import { set } from "mongoose";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom'
 
 const Signup = () => {
     const [Show, setShow] = useState(false)
@@ -29,7 +29,7 @@ const Signup = () => {
       });
       return;
     }
-    console.log(pics);
+   
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
       data.append("file", pics);
@@ -42,7 +42,6 @@ const Signup = () => {
         .then((res) => res.json())
         .then((data) => {
           setPic(data.url.toString());
-          console.log(data.url.toString());
           setLoading(false);
         })
         .catch((err) => {
@@ -74,6 +73,7 @@ const Signup = () => {
       setLoading(false);
       return;
     }
+    // if the password and confirm password do not match then we will show a warning
     if (password !== confirmpassword) {
       toast({
         title: "Passwords Do Not Match",
@@ -84,7 +84,7 @@ const Signup = () => {
       });
       return;
     }
-    console.log(name, email, password, pic);
+    // console.log(name, email, password, pic);
     try {
       const config = {
         headers: {

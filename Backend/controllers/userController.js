@@ -13,6 +13,7 @@ const registerUser =asyncHandler(async (req,res)=>{
     const userExists = await User.findOne({email});
     //if user exists then we will throw an error
     if(userExists){
+
         res.status(400);
         throw new Error("User ALready Existes");
     }
@@ -34,19 +35,18 @@ const registerUser =asyncHandler(async (req,res)=>{
             token:generateToken(user._id),
         });
     }
-    //if this fails then we will throw an error
-    //user not found failed to create user
+    // if this fails then we will throw an error of the following case and this case will not further proceed
+    
     else{
         res.status(400);
         throw new Error("User not found failed to create user");
     }
-
 }) ;
 
 const authUser = asyncHandler(async (req,res)=>{
     const {email,password} = req.body;
     const user = await User.findOne({email});
-    if(user && (await user.matchPassword)){
+    if(user && (await user.matchPassword(password))){
         res.json({
             _id:user._id,
             name:user.name,
@@ -54,12 +54,30 @@ const authUser = asyncHandler(async (req,res)=>{
             pic:user.pic,
             token:generateToken(user._id),
         })
+        
+    }
+    else{
+        res.status(401);
+        throw new Error("Invalid email or password");
+    
     }
 })
+
+// /api/user?search = keyword
+// @desc Get all users
 const allUsers = asyncHandler(async (req,res)=>{    
-    const users = await User.find({});
-    res.json(users);
+    const keyword = req.query.search
+    ?{
+        //we will search the name and email of the user
+        $or:[
+            {name:{ $regex:req.query.search, $options:"i", }},
+            {email:{ $regex:req.query.search, $options:"i", }},
+        ],
+    }   
+    :{};
+    const users = await User.find(keyword).find({_id:{$ne:req.user._id}});     
+res.send(users);
 }
 )
 
-module.exports = {registerUser,authUser};
+module.exports = {registerUser,authUser,allUsers};

@@ -33,12 +33,14 @@ const Login = () => {
           "Content-type": "application/json",
         },
       };
+      
 
       const { data } = await axios.post(
         "/api/user/login",
         { email, password },
         config
       );
+    
 
       toast({
         title: "Login Successful",
@@ -101,7 +103,7 @@ const Login = () => {
     onClick={submitHandler}
     isLoading={loading}
     >
-        Signup
+        Login
     </Button>
 {/* Guest User Credential */}
  <Button
