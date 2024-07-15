@@ -26,7 +26,7 @@ const HomePage = () => {
         borderWidth="1px"
       >
         <Text fontSize="xl" fontFamily="Work sans" textAlign="center">
-          Social Worm
+          KIIT Social 
         </Text>
       </Box>
       <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
